@@ -1,21 +1,33 @@
 let hasClicked = false;
 
 document.addEventListener('click', (event) => {
-    if (!hasClicked) {
-        spawnGhoul(event.clientX, event.clientY);
-        hasClicked = true;
-    } else if (event.button === 0 && Math.random() < 0.25) { // 25% chance on left-click after first
-        spawnGhoul(event.clientX, event.clientY);
-    }
+    handleSpawnGhoul(event.clientX, event.clientY, !hasClicked || (event.button === 0 && Math.random() < 0.25));
+    hasClicked = true;
 });
 
 document.addEventListener('wheel', (event) => {
-    if (Math.random() < 0.10) { // 25% chance on any scroll event
-        spawnGhoul(event.clientX, event.clientY);
+    if (Math.random() < 0.25) {
+        handleSpawnGhoul(event.clientX, event.clientY, true);
     }
 });
 
-function spawnGhoul(clickX, clickY) {
+document.addEventListener('touchstart', (event) => {
+    // Prevent default touch behavior if needed (e.g., scrolling)
+    // event.preventDefault();
+
+    // Get the location of the first touch
+    const touch = event.touches[0];
+    handleSpawnGhoul(touch.clientX, touch.clientY, !hasClicked || Math.random() < 0.25);
+    hasClicked = true;
+}, { passive: false }); // passive: false is needed if you call preventDefault()
+
+function handleSpawnGhoul(x, y, shouldSpawn) {
+    if (shouldSpawn) {
+        spawnGhoul(x, y);
+    }
+}
+
+function spawnGhoul(spawnX, spawnY) {
     const ghoulContainer = document.getElementById('ghoul-container');
     const ghoul = document.createElement('canvas'); // Use a canvas for the sprite
     const ghoulImageSrc = `assets/spriteghost.png`;
@@ -36,8 +48,8 @@ function spawnGhoul(clickX, clickY) {
         ghoul.height = scaledHeight;
 
         ghoul.style.position = 'absolute';
-        ghoul.style.left = `${clickX - scaledWidth / 2}px`; // Center the ghost on the event
-        ghoul.style.top = `${clickY - scaledHeight / 2}px`; // Center the ghost on the event
+        ghoul.style.left = `${spawnX - scaledWidth / 2}px`; // Center the ghost on the event
+        ghoul.style.top = `${spawnY - scaledHeight / 2}px`; // Center the ghost on the event
 
         // Very slow drifting motion
         const angle = Math.random() * Math.PI * 2;
@@ -54,8 +66,8 @@ function spawnGhoul(clickX, clickY) {
             const elapsedTime = currentTime - startTime;
             const progress = elapsedTime / animationDuration;
 
-            const newX = clickX - scaledWidth / 2 + velocityX * elapsedTime;
-            const newY = clickY - scaledHeight / 2 + velocityY * elapsedTime;
+            const newX = spawnX - scaledWidth / 2 + velocityX * elapsedTime;
+            const newY = spawnY - scaledHeight / 2 + velocityY * elapsedTime;
 
             ghoul.style.left = `${newX}px`;
             ghoul.style.top = `${newY}px`;
