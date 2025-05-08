@@ -36,7 +36,7 @@ This is the official **micro-site** for *Phantom Leap*, a free Halloween-themed 
 
 ## 🧠 About the Game
 
-Phantom Leap is a platformer developed from an original concept created a few years ago, now reimagined with a spooky Halloween twist. It's designed for all platforms and players aged 8+, and it's completely free and open-source.
+Phantom Leap is a platformer developed from an original concept created a few years ago, now reimagined with a spooky Halloween twist. It's designed for all platforms and players aged 8+, and it's completely free.
 
 > Still fixing a few bugs around music sync and animation speed on some Android versions
 
