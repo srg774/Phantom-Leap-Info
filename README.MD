@@ -38,8 +38,12 @@ This is the official **micro-site** for *Phantom Leap*, a free, open-source Hall
 
 Phantom Leap is a platformer developed from an original concept created a few years ago, now reimagined with a spooky Halloween twist. It's designed for all platforms and players aged 8+, and it's completely free and open-source.
 
-> Still fixing a few bugs around music sync and animation speed on some Android versions — feedback welcome!
+> Still fixing a few bugs around music sync and animation speed on some Android versions
 
----
+## 🧙‍♂️ Tech Stack
 
-## 📦 Micro-Site Structure
+- HTML5 / CSS3
+- Vanilla JavaScript
+- Google Fonts (`Creepster`)
+- Canvas API (for animations)
+- Mobile-responsive design
