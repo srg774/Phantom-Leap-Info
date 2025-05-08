@@ -1,29 +1,27 @@
-let hasClicked = false;
+document.addEventListener("DOMContentLoaded", () => {
+    // Start the ghoul animation once the page is loaded
+    let ghoulCount = 5; // Number of ghouls to spawn
+    let spawnDuration = 5000; // Duration of the animation (5 seconds)
+    let startTime = performance.now();
 
-document.addEventListener('click', (event) => {
-    handleSpawnGhoul(event.clientX, event.clientY, !hasClicked || (event.button === 0 && Math.random() < 0.25));
-    hasClicked = true;
-});
-
-document.addEventListener('wheel', (event) => {
-    if (Math.random() < 0.25) {
-        handleSpawnGhoul(event.clientX, event.clientY, true);
+    for (let i = 0; i < ghoulCount; i++) {
+        // Random spawn positions within the window
+        let spawnX = Math.random() * window.innerWidth;
+        let spawnY = Math.random() * window.innerHeight;
+        
+        // Spawn the ghouls
+        spawnGhoul(spawnX, spawnY);
     }
+
+    // Stop ghoul animations after 5 seconds
+    setTimeout(stopGhoulAnimations, spawnDuration);
 });
 
-document.addEventListener('touchstart', (event) => {
-    // Prevent default touch behavior if needed (e.g., scrolling)
-    // event.preventDefault();
-
-    // Get the location of the first touch
-    const touch = event.touches[0];
-    handleSpawnGhoul(touch.clientX, touch.clientY, !hasClicked || Math.random() < 0.25);
-    hasClicked = true;
-}, { passive: false }); // passive: false is needed if you call preventDefault()
-
-function handleSpawnGhoul(x, y, shouldSpawn) {
-    if (shouldSpawn) {
-        spawnGhoul(x, y);
+// Function to stop the ghoul animations
+function stopGhoulAnimations() {
+    const ghoulContainer = document.getElementById('ghoul-container');
+    if (ghoulContainer) {
+        ghoulContainer.innerHTML = ''; // Clear the content of the container, effectively stopping the animations
     }
 }
 
