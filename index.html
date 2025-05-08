@@ -229,7 +229,7 @@
     <div id="ghoul-container"></div>
 
     <script src="pumpkinAnimation.js"></script>
-    <script src="stopGhouls.js"></script>
+    <script src="spawnGhoul.js"></script>
 
     <script>
         function playVideo() {
@@ -243,6 +243,17 @@
             video.style.display = "block";
             video.play();
         }
+
+        // Function to stop the ghoul animations
+        function stopGhoulAnimations() {
+            const ghoulContainer = document.getElementById('ghoul-container');
+            if (ghoulContainer) {
+                ghoulContainer.innerHTML = ''; // Clear the content of the container, effectively stopping the animations
+            }
+        }
+
+        // Set a timeout to stop the animations after 5 seconds (5000 milliseconds)
+        setTimeout(stopGhoulAnimations, 5000);
     </script>
 </body>
 </html>
