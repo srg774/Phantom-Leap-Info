@@ -2,7 +2,7 @@
 
 **Collect Souls. Evade Shadows. Survive.**
 
-This is the official **micro-site** for *Phantom Leap*, a free, open-source Halloween-themed platformer. This site is where players land to learn about the game, watch a sneak peek, check the controls, and launch or remix the game.
+This is the official **micro-site** for *Phantom Leap*, a free Halloween-themed platformer. This site is where players land to learn about the game, watch a sneak peek, check the controls, and launch or remix the game.
 
 ---
 
