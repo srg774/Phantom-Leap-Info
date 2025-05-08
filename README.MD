@@ -8,7 +8,7 @@ This is the official **micro-site** for *Phantom Leap*, a free Halloween-themed 
 
 ## 🌐 Live Site
 
-🔗 [Visit the Micro-Site](https://srg774.github.io/Phantom-Leap/)
+🔗 [Visit the Micro-Site](https://srg774.github.io/Phantom-Leap-Info/)
 🎮 [Play Phantom Leap](https://srg774.github.io/Phantom-Leap/)
 
 ---
