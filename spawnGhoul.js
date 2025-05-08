@@ -4,16 +4,15 @@ document.addEventListener('click', (event) => {
     if (!hasClicked) {
         spawnGhoul(event.clientX, event.clientY);
         hasClicked = true;
-    } else if (event.button === 0 && Math.random() < 0.25) { // Listen for left-click (button 0)
+    } else if (event.button === 0 && Math.random() < 0.25) { // 25% chance on left-click after first
         spawnGhoul(event.clientX, event.clientY);
     }
 });
 
 document.addEventListener('wheel', (event) => {
-    // Middle mouse button scroll doesn't have a specific 'button' property
-    // We'll trigger on any scroll event for simplicity.
-    // You could add more complex logic to differentiate if needed.
-    spawnGhoul(event.clientX, event.clientY);
+    if (Math.random() < 0.25) { // 25% chance on any scroll event
+        spawnGhoul(event.clientX, event.clientY);
+    }
 });
 
 function spawnGhoul(clickX, clickY) {
