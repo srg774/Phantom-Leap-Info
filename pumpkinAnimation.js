@@ -32,11 +32,11 @@ function loadImage(src) {
     return img;
 }
 
-let currentAnimation = "stand"; 
+let currentAnimation = "stand";
 let currentFrame = 0;
 const animationSpeed = 200; // time per frame in ms
 let lastUpdateTime = 0;
-let animationPhase = 0; // 0 = stand, 1 = wag, 2 = wagtwist, 3 = done
+let animationPhase = 0; // 0 = stand, 1 = wag, 2 = wagtwist
 
 function updateAnimation() {
     const currentTime = Date.now();
@@ -47,15 +47,15 @@ function updateAnimation() {
         if (currentFrame >= images[currentAnimation].length) {
             currentFrame = 0;
             animationPhase++;
-            switch (animationPhase) {
+            switch (animationPhase % 3) { // Loop through the three animation phases
+                case 0:
+                    currentAnimation = "stand";
+                    break;
                 case 1:
                     currentAnimation = "wag";
                     break;
                 case 2:
                     currentAnimation = "wagtwist";
-                    break;
-                case 3:
-                    fadeOutAnimation();
                     break;
             }
         }
@@ -86,27 +86,5 @@ Promise.all([
     gameLoop();
 });
 
-function fadeOutAnimation() {
-    let opacity = 1;
-    function fade() {
-        opacity -= 0.02;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.globalAlpha = opacity;
-        draw();
-        ctx.globalAlpha = 1; // Reset after draw
-
-        if (opacity > 0) {
-            requestAnimationFrame(fade);
-        } else {
-            canvas.style.display = "none";
-            document.getElementById("gameCanvas").style.display = "block";
-            startGame();
-        }
-    }
-    fade();
-}
-
-function startGame() {
-    console.log('Starting game...');
-    window.onload(); // Triggers your game.js start logic
-}
+// We've removed the fadeOutAnimation and startGame functions
+// and modified the updateAnimation to loop.
