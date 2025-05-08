@@ -8,7 +8,7 @@ This is the official **micro-site** for *Phantom Leap*, a free, open-source Hall
 
 ## 🌐 Live Site
 
-🔗 [Visit the Micro-Site](https://srg774.github.io/Phantom-Leap/)  
+🔗 [Visit the Micro-Site](https://srg774.github.io/Phantom-Leap/)
 🎮 [Play Phantom Leap](https://srg774.github.io/Phantom-Leap/)
 
 ---
@@ -26,9 +26,9 @@ This is the official **micro-site** for *Phantom Leap*, a free, open-source Hall
 
 ## 🎮 Game Controls
 
-- `←` or **Touch Left** – Move Left  
-- `→` or **Touch Right** – Move Right  
-- `↑`, `Space`, or **Touch Anywhere** – Jump  
+- `←` or **Touch Left** – Move Left
+- `→` or **Touch Right** – Move Right
+- `↑`, `Space`, or **Touch Anywhere** – Jump
 
 💡 Bonus: Collect 200+ souls to unlock a top-tier message!
 
@@ -42,5 +42,36 @@ Phantom Leap is a platformer developed from an original concept created a few ye
 
 ---
 
-## 📦 Micro-Site Structure
+
+---
+
+## 🧙‍♂️ Tech Stack
+
+- HTML5 / CSS3  
+- Vanilla JavaScript  
+- Google Fonts (`Creepster`)  
+- Canvas API (for animations)  
+- Mobile-responsive design
+
+---
+
+## 🔄 Remix the Game
+
+This project is open to remixing! If you're curious, creative, or just want to learn — fork the repository and make it your own. No coding skills needed — just curiosity and patience. Gen AI tools can help, too! 😎
+
+🔗 [Remix on GitHub](https://github.com/srg774/Phantom-Leap)
+
+---
+
+## 📣 Contact & Cassettes
+
+If you’ve received one of the physical (blank) cassettes, let us know what you find or create! Feedback and collaboration are always welcome.
+
+---
+
+## 🧾 License
+
+MIT License — remix, reuse, resummon.  
+© 2025 [@srg774](https://github.com/srg774)  
+**Crafted with spooky pixels and retro vibes.**
 
