@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -183,7 +184,8 @@
         <section id="video-section">
             <h2>Watch the Trailer</h2>
             <div class="video-container" onclick="playVideo()">
-                <video id="video" controls poster="assets/first-frame.png"> <source src="assets/shortened-clip.mp4" type="video/mp4">
+                <video id="video" controls poster="assets/shortened-clip.mp4">
+                    <source src="assets/shortened-clip.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
                 <div class="play-button">&#9654;</div>
@@ -227,41 +229,7 @@
 
     <div id="ghoul-container"></div>
 
-    <script>
-        // --- Animation Control ---
-        document.addEventListener('DOMContentLoaded', function() {
-            const animationCanvas = document.getElementById('animationCanvas');
-            if (animationCanvas) {
-                let animationActive = true;
-                let startTime = null;
-                const animationDuration = 5000; // 5 seconds in milliseconds
-
-                function animate(timestamp) {
-                    if (!startTime) startTime = timestamp;
-                    const elapsed = timestamp - startTime;
-
-                    // Your animation drawing logic from pumpkinAnimation.js should go here
-                    // For example:
-                    const ctx = animationCanvas.getContext('2d');
-                    ctx.clearRect(0, 0, animationCanvas.width, animationCanvas.height);
-                    const progress = Math.min(1, elapsed / animationDuration);
-                    const scale = 0.5 + 0.5 * progress; // Example animation based on progress
-                    ctx.fillStyle = '#ff8c00';
-                    ctx.fillRect(animationCanvas.width / 2 - 50 * scale, animationCanvas.height / 2 - 50 * scale, 100 * scale, 100 * scale);
-
-                    if (elapsed < animationDuration) {
-                        requestAnimationFrame(animate);
-                    } else {
-                        animationActive = false;
-                        // Optionally clear the canvas or set a final static frame
-                        ctx.clearRect(0, 0, animationCanvas.width, animationCanvas.height);
-                    }
-                }
-
-                requestAnimationFrame(animate);
-            }
-        });
-    </script>
+    <script src="pumpkinAnimation.js"></script>
     <script src="spawnGhoul.js"></script>
 
     <script>
