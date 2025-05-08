@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
-    <style>
+<style>
         body {
             font-family: 'Creepster', cursive;
             background-color: #000;
@@ -37,7 +37,7 @@
         h1 {
             font-size: 4em; /* Larger title */
             margin-bottom: 10px;
-            text-shadow: 2px 2px #000, 0 0 10px green; /* Black shadow and green glow */
+            text-shadow: 2px 2px #000; /* Keep black shadow */
         }
 
         .animation-container {
@@ -65,14 +65,14 @@
 
         h2 {
             font-size: 2.5em;
-            color: #ff4500;
+            color: #ff4500; /* Keep orange color */
             margin-bottom: 15px;
             text-shadow: 1px 1px #000;
         }
 
         p {
             font-size: 1.1em;
-            color: #eee;
+            color: #eee; /* Default white color */
             margin-bottom: 20px;
         }
 
@@ -97,10 +97,9 @@
             margin-top: 40px;
             padding: 20px 0;
             border-top: 2px solid #555;
-            color: white; /* White text with green glow */
+            color: #888; /* Default gray color */
             font-size: 0.9em;
             text-align: center;
-            text-shadow: 0 0 10px green;
         }
 
         body::before {
@@ -155,56 +154,61 @@
             left: 50%;
             transform: translate(-50%, -50%);
             font-size: 30px;
-            color: white; /* White text with green glow */
+            color: white;
             background: rgba(0, 0, 0, 0.5);
             padding: 10px;
             border-radius: 50%;
             cursor: pointer;
-            text-shadow: 0 0 10px green;
         }
 
-        /* White text with green glow */
+        /* Orange glow for white text */
         .white-glow {
             color: white;
-            text-shadow: 0 0 10px green;
+            text-shadow: 0 0 15px orange; /* More noticeable orange glow */
         }
 
-        /* Apply glow to specific white text elements */
-        #about h2,
-        #about p,
-        #video-section h2,
-        #video-section p,
-        #download h2,
-        #download p,
-        #download a,
-        #download2 h2,
-        #download2 a,
-        #contact h2,
-        #contact p {
-            color: white;
-            text-shadow: 0 0 10px green;
-        }
-
-        #features {
+        /* Apply the white glow class to specific white text elements */
+        header p {
             color: white;
             text-align: center;
-            text-shadow: 0 0 10px green;
+            text-shadow: 0 0 15px orange;
         }
 
-        #features ul {
-            list-style-type: none;
-            padding-left: 0;
+        #about p {
+            color: white;
+            text-shadow: 0 0 15px orange;
         }
 
-        #features li {
-            margin-bottom: 10px;
+        #video-section p {
+            color: white;
+            text-shadow: 0 0 15px orange;
         }
 
         .bonus-points {
             color: white;
             text-align: center;
             margin-bottom: 20px;
-            text-shadow: 0 0 10px green;
+            text-shadow: 0 0 15px orange;
+        }
+
+        #features {
+            color: white;
+            text-align: center;
+        }
+
+        #features h2,
+        #features li {
+            text-shadow: 0 0 15px orange;
+        }
+
+        #download p {
+            color: white;
+            text-shadow: 0 0 15px orange;
+        }
+
+        #contact p {
+            color: white;
+            text-shadow: 0 0 15px orange;
         }
     </style>
 </head>
