@@ -223,14 +223,14 @@
             <div class="animation-container">
                 <canvas id="animationCanvas" width="200" height="300"></canvas>
             </div>
-        </section>
 
-        <section id="about">
+                  <section id="about">
             <h2>About the Game</h2>
             <p>Developed from an original concept game created a few years ago, this latest Halloween-themed game adds a spooky twist to the platformer genre. Designed for all platforms and ages 8+, it is free, open-source, and here for your entertainment! Currently, I'm still working through some bugs related to theme music and animation speeds on different versions of Android, but I'm collaborating with beta testers to fine-tune it. Feel free to remix this and reach out if you do, especially those who received the cassettes!</p>
         </section>
+   
 
-        <section id="video-section">
+ <section id="video-section">
             <h2>Inside Cheat Treat!</h2>
             <div class="video-container" onclick="playVideo()">
                 <video id="video" controls poster="assets/video-thumbnail.png" muted>
@@ -240,17 +240,20 @@
                 <div class="play-button">&#9654;</div>
             </div>
         </section>
+        
+</section>
 
-        <p class="bonus-points">Bonus Points: You are generally aiming for 200 souls or more to unlock the top-tier message, but the more souls, the merrier!</p>
+    <p style="color: white; text-align: center; margin-bottom: 20px;">Bonus Points: You are generally aiming for 200 souls or more to unlock the top-tier message, but the more souls, the merrier!</p>
 
-        <section id="features">
-            <h2>Game Controls</h2>
-            <ul>
-                <li>Arrow Left or Touch Left: Move player left</li>
-                <li>Arrow Right or Touch Right: Move player right</li>
-                <li>Arrow Up or Spacebar or Touch Anywhere: Jump</li>
-            </ul>
-        </section>
+    <section id="features" style="color: white; text-align: center;">
+        <h2>Game Controls</h2>
+        <ul style="list-style-type: none; padding-left: 0;">
+            <li style="margin-bottom: 10px;">Arrow Left or Touch Left: Move player left</li>
+            <li style="margin-bottom: 10px;">Arrow Right or Touch Right: Move player right</li>
+            <li style="margin-bottom: 10px;">Arrow Up or Spacebar or Touch Anywhere: Jump</li>
+        </ul>
+    </section>
+
 
         <section id="download">
             <h2>Pick and Mix your own version!</h2>
@@ -258,7 +261,7 @@
             <a href="https://github.com/srg774/Phantom-Leap" class="button" target="_blank">Visit on GitHub</a>
         </section>
 
-        <section id="download2">
+            <section id="download2">
             <h2>Dive into the latest Game Version!</h2>
             <a href="https://srg774.github.io/Phantom-Leap/" class="button" target="_blank">PLay Now!</a>
         </section>
@@ -282,18 +285,24 @@
         function playVideo() {
             var video = document.getElementById("video");
             var playButton = document.querySelector(".play-button");
+
+            // Hide play button
             playButton.style.display = "none";
+
+            // Show and play video
             video.style.display = "block";
             video.play();
         }
 
+        // Function to stop the ghoul animations
         function stopGhoulAnimations() {
             const ghoulContainer = document.getElementById('ghoul-container');
             if (ghoulContainer) {
-                ghoulContainer.innerHTML = '';
+                ghoulContainer.innerHTML = ''; // Clear the content of the container, effectively stopping the animations
             }
         }
 
+        // Set a timeout to stop the animations after 5 seconds (5000 milliseconds)
         setTimeout(stopGhoulAnimations, 5000);
     </script>
 </body>
