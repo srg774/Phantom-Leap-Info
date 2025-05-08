@@ -1,25 +1,52 @@
 let hasClicked = false;
+let spawningActive = false;
+let activationTimer;
+const activationDuration = 5000; // 5 seconds
 
-document.addEventListener('click', (event) => {
-    handleSpawnGhoul(event.clientX, event.clientY, !hasClicked || (event.button === 0 && Math.random() < 0.25));
-    hasClicked = true;
-});
+// Function to activate spawning for a limited time
+function activateSpawning() {
+    spawningActive = true;
+    activationTimer = setTimeout(() => {
+        spawningActive = false;
+        console.log("Ghoul spawning deactivated.");
+        // Optionally, you could remove the event listeners here if you don't want any more spawning
+        // document.removeEventListener('click', clickHandler);
+        // document.removeEventListener('wheel', wheelHandler);
+        // document.removeEventListener('touchstart', touchHandler, { passive: false });
+    }, activationDuration);
+    console.log("Ghoul spawning activated for 5 seconds.");
+}
 
-document.addEventListener('wheel', (event) => {
-    if (Math.random() < 0.25) {
+// Event listener for click
+const clickHandler = (event) => {
+    if (spawningActive) {
+        handleSpawnGhoul(event.clientX, event.clientY, !hasClicked || (event.button === 0 && Math.random() < 0.25));
+        hasClicked = true;
+    }
+};
+
+// Event listener for wheel
+const wheelHandler = (event) => {
+    if (spawningActive && Math.random() < 0.25) {
         handleSpawnGhoul(event.clientX, event.clientY, true);
     }
+};
+
+// Event listener for touchstart
+const touchHandler = (event) => {
+    if (spawningActive) {
+        const touch = event.touches[0];
+        handleSpawnGhoul(touch.clientX, touch.clientY, !hasClicked || Math.random() < 0.25);
+        hasClicked = true;
+    }
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    activateSpawning();
+    document.addEventListener('click', clickHandler);
+    document.addEventListener('wheel', wheelHandler);
+    document.addEventListener('touchstart', touchHandler, { passive: false });
 });
-
-document.addEventListener('touchstart', (event) => {
-    // Prevent default touch behavior if needed (e.g., scrolling)
-    // event.preventDefault();
-
-    // Get the location of the first touch
-    const touch = event.touches[0];
-    handleSpawnGhoul(touch.clientX, touch.clientY, !hasClicked || Math.random() < 0.25);
-    hasClicked = true;
-}, { passive: false }); // passive: false is needed if you call preventDefault()
 
 function handleSpawnGhoul(x, y, shouldSpawn) {
     if (shouldSpawn) {
@@ -29,18 +56,16 @@ function handleSpawnGhoul(x, y, shouldSpawn) {
 
 function spawnGhoul(spawnX, spawnY) {
     const ghoulContainer = document.getElementById('ghoul-container');
-    const ghoul = document.createElement('canvas'); // Use a canvas for the sprite
+    const ghoul = document.createElement('canvas');
     const ghoulImageSrc = `assets/spriteghost.png`;
     const ghoulImage = new Image();
 
-    // Sprite sheet configuration (ADJUST THESE TO MATCH YOUR SPRITE SHEET)
-    const spriteFrameWidth = 64; // Width of each ghost frame
-    const spriteFrameHeight = 64; // Height of each ghost frame
-    const numberOfFrames = 4; // Number of animation frames
+    const spriteFrameWidth = 64;
+    const spriteFrameHeight = 64;
+    const numberOfFrames = 4;
     let currentFrame = 0;
 
     ghoulImage.onload = () => {
-        // Make the ghost around 10 times larger
         const scaleFactor = 10;
         const scaledWidth = spriteFrameWidth * scaleFactor;
         const scaledHeight = spriteFrameHeight * scaleFactor;
@@ -48,18 +73,17 @@ function spawnGhoul(spawnX, spawnY) {
         ghoul.height = scaledHeight;
 
         ghoul.style.position = 'absolute';
-        ghoul.style.left = `${spawnX - scaledWidth / 2}px`; // Center the ghost on the event
-        ghoul.style.top = `${spawnY - scaledHeight / 2}px`; // Center the ghost on the event
+        ghoul.style.left = `${spawnX - scaledWidth / 2}px`;
+        ghoul.style.top = `${spawnY - scaledHeight / 2}px`;
 
-        // Very slow drifting motion
         const angle = Math.random() * Math.PI * 2;
-        const speed = 0.5; // Very slow speed
+        const speed = 0.5;
         const velocityX = Math.cos(angle) * speed;
         const velocityY = Math.sin(angle) * speed;
 
         ghoulContainer.appendChild(ghoul);
 
-        const animationDuration = Math.random() * 8000 + 5000; // Drift for 5 to 13 seconds
+        const animationDuration = Math.random() * 8000 + 5000;
         const startTime = performance.now();
 
         function animateGhoul(currentTime) {
@@ -72,16 +96,15 @@ function spawnGhoul(spawnX, spawnY) {
             ghoul.style.left = `${newX}px`;
             ghoul.style.top = `${newY}px`;
 
-            // Draw the current sprite frame
             const context = ghoul.getContext('2d');
             context.clearRect(0, 0, ghoul.width, ghoul.height);
             const sourceX = currentFrame * spriteFrameWidth;
             context.drawImage(
                 ghoulImage,
-                sourceX, 0, // Source x, y
-                spriteFrameWidth, spriteFrameHeight, // Source width, height
-                0, 0, // Destination x, y
-                ghoul.width, ghoul.height // Destination width, height
+                sourceX, 0,
+                spriteFrameWidth, spriteFrameHeight,
+                0, 0,
+                ghoul.width, ghoul.height
             );
 
             currentFrame = (currentFrame + 1) % numberOfFrames;
