@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Game Title</title>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #000; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        canvas { display: block; }
+        #gameCanvas { display: none; /* Initially hidden game canvas */ }
+    </style>
+</head>
+<body>
+    <canvas id="animationCanvas" width="400" height="400"></canvas>
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <script src="pumpkinAnimation.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>
