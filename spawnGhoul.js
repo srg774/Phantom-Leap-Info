@@ -10,7 +10,7 @@ document.addEventListener('click', (event) => {
 });
 
 document.addEventListener('wheel', (event) => {
-    if (Math.random() < 0.25) { // 25% chance on any scroll event
+    if (Math.random() < 0.10) { // 25% chance on any scroll event
         spawnGhoul(event.clientX, event.clientY);
     }
 });
