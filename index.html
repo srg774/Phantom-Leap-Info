@@ -244,16 +244,27 @@
             video.play();
         }
 
-        // Function to stop the ghoul animations
-        function stopGhoulAnimations() {
+        // Function to stop the ghoul animations after 5 seconds
+        setTimeout(function() {
+            // Try to access a stop function or a flag within the global scope
+            // that is likely defined in your spawnGhoul.js file.
+
+            // Option 1: If spawnGhoul.js has a global function to stop
+            if (typeof stopGhoulAnimation === 'function') {
+                stopGhoulAnimation();
+            }
+
+            // Option 2: If spawnGhoul.js uses a global flag (like 'allowAnimation')
+            if (typeof allowGhoulAnimation !== 'undefined') {
+                window.allowGhoulAnimation = false;
+            }
+
+            // Option 3: As a fallback, try clearing the ghoul container (though this might not stop the animation loop itself)
             const ghoulContainer = document.getElementById('ghoul-container');
             if (ghoulContainer) {
-                ghoulContainer.innerHTML = ''; // Clear the content of the container, effectively stopping the animations
+                ghoulContainer.innerHTML = '';
             }
-        }
-
-        // Set a timeout to stop the animations after 5 seconds (5000 milliseconds)
-        setTimeout(stopGhoulAnimations, 5000);
+        }, 5000);
     </script>
 </body>
 </html>
