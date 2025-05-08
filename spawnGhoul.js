@@ -1,12 +1,19 @@
 let hasClicked = false;
-let clickCount = 0;
 
 document.addEventListener('click', (event) => {
-    if (!hasClicked || Math.random() < 0.25) { // 25% chance after the first click
+    if (!hasClicked) {
+        spawnGhoul(event.clientX, event.clientY);
+        hasClicked = true;
+    } else if (event.button === 0 && Math.random() < 0.25) { // Listen for left-click (button 0)
         spawnGhoul(event.clientX, event.clientY);
     }
-    hasClicked = true;
-    clickCount++;
+});
+
+document.addEventListener('wheel', (event) => {
+    // Middle mouse button scroll doesn't have a specific 'button' property
+    // We'll trigger on any scroll event for simplicity.
+    // You could add more complex logic to differentiate if needed.
+    spawnGhoul(event.clientX, event.clientY);
 });
 
 function spawnGhoul(clickX, clickY) {
@@ -30,8 +37,8 @@ function spawnGhoul(clickX, clickY) {
         ghoul.height = scaledHeight;
 
         ghoul.style.position = 'absolute';
-        ghoul.style.left = `${clickX - scaledWidth / 2}px`; // Center the ghost on the click
-        ghoul.style.top = `${clickY - scaledHeight / 2}px`; // Center the ghost on the click
+        ghoul.style.left = `${clickX - scaledWidth / 2}px`; // Center the ghost on the event
+        ghoul.style.top = `${clickY - scaledHeight / 2}px`; // Center the ghost on the event
 
         // Very slow drifting motion
         const angle = Math.random() * Math.PI * 2;
