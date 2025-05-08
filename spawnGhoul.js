@@ -1,100 +1,290 @@
-let hasClicked = false;
-
-document.addEventListener('click', (event) => {
-    handleSpawnGhoul(event.clientX, event.clientY, !hasClicked || (event.button === 0 && Math.random() < 0.25));
-    hasClicked = true;
-});
-
-document.addEventListener('wheel', (event) => {
-    if (Math.random() < 0.25) {
-        handleSpawnGhoul(event.clientX, event.clientY, true);
-    }
-});
-
-document.addEventListener('touchstart', (event) => {
-    // Prevent default touch behavior if needed (e.g., scrolling)
-    // event.preventDefault();
-
-    // Get the location of the first touch
-    const touch = event.touches[0];
-    handleSpawnGhoul(touch.clientX, touch.clientY, !hasClicked || Math.random() < 0.25);
-    hasClicked = true;
-}, { passive: false }); // passive: false is needed if you call preventDefault()
-
-function handleSpawnGhoul(x, y, shouldSpawn) {
-    if (shouldSpawn) {
-        spawnGhoul(x, y);
-    }
-}
-
-function spawnGhoul(spawnX, spawnY) {
-    const ghoulContainer = document.getElementById('ghoul-container');
-    const ghoul = document.createElement('canvas'); // Use a canvas for the sprite
-    const ghoulImageSrc = `assets/spriteghost.png`;
-    const ghoulImage = new Image();
-
-    // Sprite sheet configuration (ADJUST THESE TO MATCH YOUR SPRITE SHEET)
-    const spriteFrameWidth = 64; // Width of each ghost frame
-    const spriteFrameHeight = 64; // Height of each ghost frame
-    const numberOfFrames = 4; // Number of animation frames
-    let currentFrame = 0;
-
-    ghoulImage.onload = () => {
-        // Make the ghost around 10 times larger
-        const scaleFactor = 10;
-        const scaledWidth = spriteFrameWidth * scaleFactor;
-        const scaledHeight = spriteFrameHeight * scaleFactor;
-        ghoul.width = scaledWidth;
-        ghoul.height = scaledHeight;
-
-        ghoul.style.position = 'absolute';
-        ghoul.style.left = `${spawnX - scaledWidth / 2}px`; // Center the ghost on the event
-        ghoul.style.top = `${spawnY - scaledHeight / 2}px`; // Center the ghost on the event
-
-        // Very slow drifting motion
-        const angle = Math.random() * Math.PI * 2;
-        const speed = 0.5; // Very slow speed
-        const velocityX = Math.cos(angle) * speed;
-        const velocityY = Math.sin(angle) * speed;
-
-        ghoulContainer.appendChild(ghoul);
-
-        const animationDuration = Math.random() * 8000 + 5000; // Drift for 5 to 13 seconds
-        const startTime = performance.now();
-
-        function animateGhoul(currentTime) {
-            const elapsedTime = currentTime - startTime;
-            const progress = elapsedTime / animationDuration;
-
-            const newX = spawnX - scaledWidth / 2 + velocityX * elapsedTime;
-            const newY = spawnY - scaledHeight / 2 + velocityY * elapsedTime;
-
-            ghoul.style.left = `${newX}px`;
-            ghoul.style.top = `${newY}px`;
-
-            // Draw the current sprite frame
-            const context = ghoul.getContext('2d');
-            context.clearRect(0, 0, ghoul.width, ghoul.height);
-            const sourceX = currentFrame * spriteFrameWidth;
-            context.drawImage(
-                ghoulImage,
-                sourceX, 0, // Source x, y
-                spriteFrameWidth, spriteFrameHeight, // Source width, height
-                0, 0, // Destination x, y
-                ghoul.width, ghoul.height // Destination width, height
-            );
-
-            currentFrame = (currentFrame + 1) % numberOfFrames;
-
-            if (progress < 1) {
-                requestAnimationFrame(animateGhoul);
-            } else {
-                ghoul.remove();
-            }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Game Title</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Creepster', cursive; /* Creepster font will be applied */
+            background-color: #000; /* Pure black background */
+            color: #ff8c00; /* Pumpkin orange text */
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            overflow-x: hidden; /* Prevent horizontal scrollbar */
         }
 
-        requestAnimationFrame(animateGhoul);
-    };
+        .container {
+            max-width: 960px; /* Adjust as needed */
+            margin: 40px auto;
+            padding: 30px;
+            border: 2px dashed #777; /* Retro border */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
 
-    ghoulImage.src = ghoulImageSrc;
-}
+        header {
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #555;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px #000; /* Shadow for emphasis */
+        }
+
+        .animation-container {
+            position: relative;
+            width: 200px; /* Adjust to your animation width */
+            height: 300px; /* Adjust to your animation height */
+            margin: 20px auto;
+        }
+
+        #animationCanvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            background-color: transparent; /* Ensure it's transparent */
+        }
+
+        .section {
+            padding: 30px 0;
+            border-top: 1px dotted #555;
+        }
+
+        .section:first-child {
+            border-top: none;
+        }
+
+        h2 {
+            font-size: 2.5em;
+            color: #ff4500; /* A darker orange for headings */
+            margin-bottom: 15px;
+            text-shadow: 1px 1px #000;
+        }
+
+        p {
+            font-size: 1.1em;
+            color: #eee;
+            margin-bottom: 20px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #ff6f00;
+            color: #222;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            margin-top: 15px;
+            box-shadow: 2px 2px #000;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #e65100;
+        }
+
+        footer {
+            margin-top: 40px;
+            padding: 20px 0;
+            border-top: 2px solid #555;
+            color: #888;
+            font-size: 0.9em;
+            text-align: center;
+        }
+
+        /* Retro Pumpkin/Halloween Accents (Optional - Add images to your assets folder) */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('assets/retro-halloween-pattern.png') repeat; /* Replace with your pattern */
+            opacity: 0.1; /* Subtle overlay */
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .pumpkin-corner {
+            position: fixed;
+            width: 80px; /* Adjust size */
+            height: auto;
+            opacity: 0.7;
+        }
+
+        .top-left { top: 10px; left: 10px; }
+        .top-right { top: 10px; right: 10px; }
+        .bottom-left { bottom: 10px; left: 10px; }
+        .bottom-right { bottom: 10px; right: 10px; }
+
+        #ghoul-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* Video Container */
+        .video-container {
+            position: relative;
+            width: 100%; /* Full width */
+            max-width: 640px; /* Optional max width */
+            margin: 20px auto;
+            cursor: pointer;
+        }
+        .video-container video {
+            width: 100%;
+            height: auto;
+            display: none; /* Initially hide the video */
+        }
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 30px;
+            color: white;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>[Your Game Title Here]</h1>
+            <p>A Retro Halloween Adventure!</p>
+        </header>
+
+        <section id="animation">
+            <h2>Get Spooked!</h2>
+            <div class="animation-container">
+                <canvas id="animationCanvas" width="200" height="300"></canvas>
+            </div>
+            <p>Witness the eerie charm before your very eyes...</p>
+        </section>
+
+        <section id="video-section">
+            <h2>Watch the Trailer</h2>
+            <div class="video-container" onclick="playVideo()">
+                <video id="video" controls poster="assets/shortened-clip.mp4">
+                    <source src="assets/shortened-clip.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="play-button">&#9654;</div>
+            </div>
+            <p>Click the play button to watch the trailer of [Your Game Title]!</p>
+        </section>
+
+        <section id="about">
+            <h2>About the Game</h2>
+            <p>Dive into a world of pixelated pumpkins and ghostly delights! [Your Game Title] is a [genre] inspired by the classic games of yesteryear, with a spooky Halloween twist. Prepare for [mention key gameplay elements, e.g., challenging puzzles, quirky characters, retro graphics].</p>
+            <p>Developed with love (and a touch of madness) for fans of retro gaming and all things Halloween.</p>
+        </section>
+
+        <section id="features">
+            <h2>Key Features</h2>
+            <ul>
+                <li>Retro pixel art graphics</li>
+                <li>Spooky Halloween theme</li>
+                <li>Engaging [mention a gameplay mechanic]</li>
+                <li>Charming [mention another element, e.g., characters or story]</li>
+                <li>[Add more features as needed]</li>
+            </ul>
+        </section>
+
+        <section id="download">
+            <h2>Coming Soon to GitHub!</h2>
+            <p>Get ready to download and play! [Your Game Title] will be available on GitHub on [Date or timeframe].</p>
+            <a href="[Your GitHub Repo Link]" class="button" target="_blank">Visit on GitHub</a>
+        </section>
+
+        <section id="contact">
+            <h2>Stay Updated</h2>
+            <p>Follow development and get notified when it's released:</p>
+            <p>[Links to your social media or other contact methods]</p>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 [Your Name/Team Name]. All rights reserved. <br> Crafted with spooky pixels and retro vibes.</p>
+        </footer>
+    </div>
+
+    <div id="ghoul-container"></div>
+
+    <script src="pumpkinAnimation.js"></script>
+    <script src="spawnGhoul.js"></script>
+
+    <script>
+        function playVideo() {
+            var video = document.getElementById("video");
+            var playButton = document.querySelector(".play-button");
+
+            // Hide play button
+            playButton.style.display = "none";
+
+            // Show and play video
+            video.style.display = "block";
+            video.play();
+        }
+
+        // Store references to the event listeners so we can remove them
+        let clickListener;
+        let wheelListener;
+        let touchstartListener;
+
+        // Function to handle the initial spawning (if you want some on load)
+        function triggerInitialGhouls() {
+            // You can add logic here to spawn a few ghouls when the page loads
+            // For example, calling handleSpawnGhoul a few times with random positions
+        }
+
+        // Set up the initial event listeners
+        document.addEventListener('click', clickListener = (event) => {
+            handleSpawnGhoul(event.clientX, event.clientY, !hasClicked || (event.button === 0 && Math.random() < 0.25));
+            hasClicked = true;
+        });
+
+        document.addEventListener('wheel', wheelListener = (event) => {
+            if (Math.random() < 0.25) {
+                handleSpawnGhoul(event.clientX, event.clientY, true);
+            }
+        });
+
+        document.addEventListener('touchstart', touchstartListener = (event) => {
+            const touch = event.touches[0];
+            handleSpawnGhoul(touch.clientX, touch.clientY, !hasClicked || Math.random() < 0.25);
+            hasClicked = true;
+        }, { passive: false });
+
+        let hasClicked = false; // Keep this global for the listeners
+
+        // Call this if you want some initial ghouls on page load
+        // triggerInitialGhouls();
+
+        // Remove the event listeners after 5 seconds
+        setTimeout(function() {
+            document.removeEventListener('click', clickListener);
+            document.removeEventListener('wheel', wheelListener);
+            document.removeEventListener('touchstart', touchstartListener);
+            console.log('Ghoul spawning listeners removed.');
+        }, 5000);
+    </script>
+</body>
+</html>
