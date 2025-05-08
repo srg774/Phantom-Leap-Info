@@ -42,36 +42,4 @@ Phantom Leap is a platformer developed from an original concept created a few ye
 
 ---
 
-
----
-
-## 🧙‍♂️ Tech Stack
-
-- HTML5 / CSS3  
-- Vanilla JavaScript  
-- Google Fonts (`Creepster`)  
-- Canvas API (for animations)  
-- Mobile-responsive design
-
----
-
-## 🔄 Remix the Game
-
-This project is open to remixing! If you're curious, creative, or just want to learn — fork the repository and make it your own. No coding skills needed — just curiosity and patience. Gen AI tools can help, too! 😎
-
-🔗 [Remix on GitHub](https://github.com/srg774/Phantom-Leap)
-
----
-
-## 📣 Contact & Cassettes
-
-If you’ve received one of the physical (blank) cassettes, let us know what you find or create! Feedback and collaboration are always welcome.
-
----
-
-## 🧾 License
-
-MIT License — remix, reuse, resummon.  
-© 2025 [@srg774](https://github.com/srg774)  
-**Crafted with spooky pixels and retro vibes.**
-
+## 📦 Micro-Site Structure
