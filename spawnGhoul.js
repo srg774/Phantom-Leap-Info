@@ -1,47 +1,55 @@
+let hasClicked = false;
+let clickCount = 0;
+
 document.addEventListener('click', (event) => {
-    spawnGhoul(event.clientX, event.clientY);
+    if (!hasClicked || Math.random() < 0.25) { // 25% chance after the first click
+        spawnGhoul(event.clientX, event.clientY);
+    }
+    hasClicked = true;
+    clickCount++;
 });
 
 function spawnGhoul(clickX, clickY) {
     const ghoulContainer = document.getElementById('ghoul-container');
-    const ghoul = document.createElement('canvas'); // Use a canvas to draw the sprite
-    const ghoulImageSrc = `assets/${getRandomGhoulImage()}`;
+    const ghoul = document.createElement('canvas'); // Use a canvas for the sprite
+    const ghoulImageSrc = `assets/spriteghost.png`;
     const ghoulImage = new Image();
 
-    // Sprite sheet configuration (adjust these based on your sprite sheet)
-    const spriteFrameWidth = 64; // Width of each ghost frame in the sprite sheet
+    // Sprite sheet configuration (ADJUST THESE TO MATCH YOUR SPRITE SHEET)
+    const spriteFrameWidth = 64; // Width of each ghost frame
     const spriteFrameHeight = 64; // Height of each ghost frame
-    const numberOfFrames = 4; // Number of animation frames in the sprite sheet
+    const numberOfFrames = 4; // Number of animation frames
     let currentFrame = 0;
 
     ghoulImage.onload = () => {
-        // Set the initial size of the canvas to the frame size
-        const randomSize = Math.random() * 40 + 30; // Between 30px and 70px (adjust as needed)
-        ghoul.width = spriteFrameWidth * (randomSize / spriteFrameWidth); // Scale canvas width
-        ghoul.height = spriteFrameHeight * (randomSize / spriteFrameHeight); // Scale canvas height
-        const scaleFactor = randomSize / spriteFrameWidth;
+        // Make the ghost around 10 times larger
+        const scaleFactor = 10;
+        const scaledWidth = spriteFrameWidth * scaleFactor;
+        const scaledHeight = spriteFrameHeight * scaleFactor;
+        ghoul.width = scaledWidth;
+        ghoul.height = scaledHeight;
 
         ghoul.style.position = 'absolute';
-        ghoul.style.left = `${clickX}px`;
-        ghoul.style.top = `${clickY}px`;
+        ghoul.style.left = `${clickX - scaledWidth / 2}px`; // Center the ghost on the click
+        ghoul.style.top = `${clickY - scaledHeight / 2}px`; // Center the ghost on the click
 
-        // Set a random trajectory
+        // Very slow drifting motion
         const angle = Math.random() * Math.PI * 2;
-        const speed = Math.random() * 3 + 2;
+        const speed = 0.5; // Very slow speed
         const velocityX = Math.cos(angle) * speed;
         const velocityY = Math.sin(angle) * speed;
 
         ghoulContainer.appendChild(ghoul);
 
-        const animationDuration = Math.random() * 3000 + 2000;
+        const animationDuration = Math.random() * 8000 + 5000; // Drift for 5 to 13 seconds
         const startTime = performance.now();
 
         function animateGhoul(currentTime) {
             const elapsedTime = currentTime - startTime;
             const progress = elapsedTime / animationDuration;
 
-            const newX = clickX + velocityX * elapsedTime;
-            const newY = clickY + velocityY * elapsedTime;
+            const newX = clickX - scaledWidth / 2 + velocityX * elapsedTime;
+            const newY = clickY - scaledHeight / 2 + velocityY * elapsedTime;
 
             ghoul.style.left = `${newX}px`;
             ghoul.style.top = `${newY}px`;
@@ -58,7 +66,6 @@ function spawnGhoul(clickX, clickY) {
                 ghoul.width, ghoul.height // Destination width, height
             );
 
-            // Update to the next frame
             currentFrame = (currentFrame + 1) % numberOfFrames;
 
             if (progress < 1) {
@@ -72,8 +79,4 @@ function spawnGhoul(clickX, clickY) {
     };
 
     ghoulImage.src = ghoulImageSrc;
-}
-
-function getRandomGhoulImage() {
-    return 'spriteghost.png';
 }
