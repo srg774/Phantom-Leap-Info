@@ -137,6 +137,32 @@
             pointer-events: none;
             z-index: 10;
         }
+
+        /* Video Container */
+        .video-container {
+            position: relative;
+            width: 100%; /* Full width */
+            max-width: 640px; /* Optional max width */
+            margin: 20px auto;
+            cursor: pointer;
+        }
+        .video-container video {
+            width: 100%;
+            height: auto;
+            display: none; /* Initially hide the video */
+        }
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 30px;
+            color: white;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -152,6 +178,18 @@
                 <canvas id="animationCanvas" width="200" height="300"></canvas>
             </div>
             <p>Witness the eerie charm before your very eyes...</p>
+        </section>
+
+        <section id="video-section">
+            <h2>Watch the Trailer</h2>
+            <div class="video-container" onclick="playVideo()">
+                <video id="video" controls poster="assets/shortened-clip.mp4">
+                    <source src="assets/shortened-clip.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="play-button">&#9654;</div>
+            </div>
+            <p>Click the play button to watch the trailer of [Your Game Title]!</p>
         </section>
 
         <section id="about">
@@ -192,5 +230,19 @@
 
     <script src="pumpkinAnimation.js"></script>
     <script src="spawnGhoul.js"></script>
+
+    <script>
+        function playVideo() {
+            var video = document.getElementById("video");
+            var playButton = document.querySelector(".play-button");
+
+            // Hide play button
+            playButton.style.display = "none";
+
+            // Show and play video
+            video.style.display = "block";
+            video.play();
+        }
+    </script>
 </body>
 </html>
