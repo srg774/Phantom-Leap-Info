@@ -240,7 +240,7 @@
  <section id="video-section">
             <h2>Inside Cheat Treat!</h2>
             <div class="video-container" onclick="playVideo()">
-                <video id="video" controls poster="assets/video-thumbnail.png" muted>
+                <video id="video" poster="assets/video-thumbnail.png" muted>
                     <source src="assets/shortened-clip.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
@@ -289,17 +289,18 @@
     <script src="spawnGhoul.js"></script>
 
     <script>
-        function playVideo() {
-            var video = document.getElementById("video");
-            var playButton = document.querySelector(".play-button");
+function playVideo() {
+    var video = document.getElementById("video");
+    var playButton = document.querySelector(".play-button");
 
-            // Hide play button
-            playButton.style.display = "none";
+    playButton.style.display = "none";
 
-            // Show and play video
-            video.style.display = "block";
-            video.play();
-        }
+    // Dynamically add controls after custom play is clicked
+    video.setAttribute("controls", "controls");
+
+    video.play();
+}
+
 
         // Function to stop the ghoul animations
         function stopGhoulAnimations() {
